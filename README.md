@@ -83,3 +83,4 @@ graph TB
     C_App --> |Synthesize Tibetan Chime| A_Audio
     C_App --> |Voice Commands| A_Speech
     C_App --> |vision payload & prompts| AIEndpoints
+<img width="1024" height="1024" alt="logo" src="https://github.com/user-attachments/assets/fc713177-4173-47f0-be93-0a87074558e2" />

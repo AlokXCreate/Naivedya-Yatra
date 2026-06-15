@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/images/logo.png" width="220" alt="NaivedyaYatra Logo" />
+  <img src="public/images/logo.png" width="220" alt="logo.png" />
 </p>
 
 <h1 align="center">🪔 NaivedyaYatra 🌾</h1>

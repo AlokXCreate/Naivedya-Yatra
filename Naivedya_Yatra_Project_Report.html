@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NaivedyaYatra - Technical Project Report</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- MathJax for LaTeX Rendering -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #4A0E17; /* Deep Spiritual Maroon */
+      --secondary-color: #E5A93C; /* Glowing Marigold Gold */
+      --bg-color: #FAF4E8; /* Warm Sandalwood Parchment */
+      --card-bg: #FFFDF9; /* Light Sandalwood Card */
+      --text-color: #2F2F2F;
+      --text-muted: #666;
+      --border-color: #E6D2B5;
+      --accent-color: #8C1C29;
+      --shadow: 0 4px 20px rgba(74, 14, 23, 0.08);
+      --font-sans: 'Outfit', sans-serif;
+      --font-serif: 'Cinzel', serif;
+      --font-mono: 'Fira Code', monospace;
+      --transition: all 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --primary-color: #E5A93C;
+      --secondary-color: #4A0E17;
+      --bg-color: #120305; /* Deepest Maroon Dark */
+      --card-bg: #22060A; /* Dark Sandalwood/Maroon Card */
+      --text-color: #F2E3D5;
+      --text-muted: #B39E92;
+      --border-color: #3F1015;
+      --accent-color: #F8B54D;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Left Sidebar Navigation */
+    aside {
+      width: 280px;
+      background-color: var(--card-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 2rem 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-logo i {
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      filter: drop-shadow(0 0 10px rgba(229, 169, 60, 0.4));
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-logo h2 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      color: var(--primary-color);
+    }
+
+    .search-container {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 0.6rem 1rem 0.6rem 2.2rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-container input:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 2px rgba(229, 169, 60, 0.2);
+    }
+
+    .search-container i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      list-style: none;
+      flex-grow: 1;
+    }
+
+    .nav-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 1rem;
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background-color: var(--primary-color);
+      color: #FFFDF9;
+    }
+
+    .nav-links a i {
+      margin-right: 0.75rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border-color: var(--secondary-color);
+    }
+
+    .theme-toggle-btn i {
+      margin-right: 0.5rem;
+    }
+
+    /* Main Content Area */
+    main {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 3rem 4rem;
+      max-width: 1200px;
+      transition: var(--transition);
+    }
+
+    /* Header & Hero block */
+    header {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .badge-container {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .badge-netlify { background-color: #00AD9F; }
+    .badge-github { background-color: #181717; }
+    .badge-linkedin { background-color: #0A66C2; }
+    .badge:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    .header-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .header-logo-container img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(74, 14, 23, 0.15));
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.8rem;
+      color: var(--accent-color);
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .meta-info {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Typography & Core tags */
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      position: relative;
+    }
+
+    h3 {
+      font-family: var(--font-sans);
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      margin-top: 1.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+    }
+
+    ul, ol {
+      margin-bottom: 1.2rem;
+      padding-left: 2rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Accent components & cards */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--secondary-color);
+    }
+
+    .card i {
+      font-size: 1.75rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      background-color: var(--card-bg);
+      border-left: 4px solid var(--secondary-color);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Diagram containers */
+    .diagram-container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .diagram-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: var(--transition);
+      cursor: zoom-in;
+    }
+
+    .diagram-container img:hover {
+      transform: scale(1.02);
+    }
+
+    .diagram-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.75rem;
+      font-style: italic;
+    }
+
+    /* Code Blocks */
+    pre {
+      background-color: #2D1418;
+      color: #F5EAE1;
+      padding: 1.2rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border: 1px solid #4A151D;
+      box-shadow: var(--shadow);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+
+    p code, li code {
+      background-color: var(--card-bg);
+      color: var(--accent-color);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* LaTeX styling block */
+    .math-block {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+
+    /* Image zoom overlay modal */
+    .zoom-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(18, 3, 5, 0.95);
+    }
+
+    .zoom-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 25px rgba(229, 169, 60, 0.3);
+      animation: zoomIn 0.25s ease;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .zoom-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #F5EAE1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .zoom-close:hover {
+      color: var(--secondary-color);
+    }
+
+    /* Print styling */
+    @media print {
+      aside {
+        display: none;
+      }
+      main {
+        margin-left: 0;
+        padding: 0;
+        max-width: 100%;
+      }
+      body {
+        background-color: white;
+        color: black;
+      }
+      .card {
+        page-break-inside: avoid;
+      }
+      .diagram-container {
+        page-break-inside: avoid;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      aside {
+        width: 60px;
+        padding: 1.5rem 0.5rem;
+      }
+      aside .sidebar-logo h2, aside .search-container, aside .nav-links span, aside .theme-toggle-btn span {
+        display: none;
+      }
+      aside .nav-links a i {
+        margin-right: 0;
+        font-size: 1.25rem;
+      }
+      aside .theme-toggle-btn i {
+        margin-right: 0;
+        font-size: 1.25rem;
+      }
+      main {
+        margin-left: 60px;
+        padding: 2rem 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem;
+      }
+      aside .sidebar-logo, aside .search-container, aside .nav-links span, aside .theme-toggle-btn span {
+        display: block;
+      }
+      aside .sidebar-logo {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+      aside .sidebar-logo i { margin-bottom: 0; font-size: 1.5rem; }
+      aside .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+      }
+      aside .nav-links a {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+      }
+      aside .theme-toggle-btn {
+        margin-top: 0.5rem;
+        width: max-content;
+        align-self: center;
+      }
+      main {
+        margin-left: 0;
+        padding: 1.5rem;
+      }
+      h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left Sidebar -->
+  <aside>
+    <div class="sidebar-logo">
+      <i class="fa-solid fa-dharmachakra"></i>
+      <h2>NaivedyaYatra</h2>
+    </div>
+    
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="report-search" placeholder="Search report..." onkeyup="filterContent()">
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="#summary" class="active" onclick="setActiveLink(this)"><i class="fa-solid fa-file-contract"></i><span>Executive Summary</span></a></li>
+      <li><a href="#motivation" onclick="setActiveLink(this)"><i class="fa-solid fa-compass"></i><span>Motivation</span></a></li>
+      <li><a href="#features" onclick="setActiveLink(this)"><i class="fa-solid fa-kitchen-set"></i><span>Product Features</span></a></li>
+      <li><a href="#architecture" onclick="setActiveLink(this)"><i class="fa-solid fa-network-wired"></i><span>System Architecture</span></a></li>
+      <li><a href="#math-algorithms" onclick="setActiveLink(this)"><i class="fa-solid fa-calculator"></i><span>Math & Algorithms</span></a></li>
+      <li><a href="#utility" onclick="setActiveLink(this)"><i class="fa-solid fa-lightbulb"></i><span>Practical Utility</span></a></li>
+      <li><a href="#setup" onclick="setActiveLink(this)"><i class="fa-solid fa-laptop-code"></i><span>Installation & Setup</span></a></li>
+      <li><a href="#conclusion" onclick="setActiveLink(this)"><i class="fa-solid fa-door-open"></i><span>Conclusion</span></a></li>
+    </ul>
+
+    <button class="theme-toggle-btn" onclick="toggleTheme()">
+      <i class="fa-solid fa-moon" id="theme-icon"></i>
+      <span id="theme-text">Dark Mode</span>
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+    <header>
+      <div class="header-logo-container">
+        <img src="Naivedya Yatra/public/images/logo.png" alt="NaivedyaYatra Logo" onerror="this.src='naivedya_yatra_architecture.png'; this.style.borderRadius='50%'">
+        <div>
+          <h1>NaivedyaYatra: Technical Project Report</h1>
+          <p class="subtitle">An AI-Powered Cultural Preservation Platform for Traditional Indian Culinary Heritage</p>
+        </div>
+      </div>
+      
+      <div class="badge-container">
+        <a href="https://6a302e95746430cba65e5f7a--capable-cucurucho-2732cc.netlify.app/" class="badge badge-netlify" target="_blank">
+          <i class="fa-solid fa-globe"></i>&nbsp;Live Website
+        </a>
+        <a href="https://github.com/AlokXCreate" class="badge badge-github" target="_blank">
+          <i class="fa-brands fa-github"></i>&nbsp;GitHub: AlokXCreate
+        </a>
+        <a href="https://www.linkedin.com/in/alokkadam-ai/" class="badge badge-linkedin" target="_blank">
+          <i class="fa-brands fa-linkedin"></i>&nbsp;LinkedIn: Alok Kadam
+        </a>
+      </div>
+
+      <div class="meta-info">
+        <p><strong>Author:</strong> Alok Kadam (ALoKX) &nbsp;|&nbsp; <strong>Date:</strong> June 15, 2026 &nbsp;|&nbsp; <strong>Status:</strong> Production Ready</p>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section id="summary" class="report-section">
+      <h2>1. Executive Summary</h2>
+      <p><strong>NaivedyaYatra</strong> is an immersive, client-side Single-Page Web Application (SPA) designed to archive, scale, and filter <strong>52 authentic regional Indian recipes</strong>, emphasizing sacred temple offerings (Prasad/Bhog), festival diets, and Ayurvedic nutritional parameters.</p>
+      <p>Built using a bespoke <strong>modern-traditional Indian design system</strong>, the application includes a dark-mode responsive UI themed with rich spiritual maroons, sandalwood paper canvases, and glowing marigold highlights. It incorporates browser-level capabilities to create a grease-free, kitchen-safe cooking experience:</p>
+      
+      <div class="feature-grid">
+        <div class="card">
+          <i class="fa-solid fa-hands-asl-interpreting"></i>
+          <h4>Hands-Free Gesture Interface</h4>
+          <p>Utilizes webcam frame-differencing pixel algorithms to navigate cooking instructions with a simple wave, keeping phone screens clean.</p>
+        </div>
+        <div class="card">
+          <i class="fa-solid fa-microphone-lines"></i>
+          <h4>Multilingual Vocal Assistant</h4>
+          <p>Continuous-loop speech recognition supporting 8 major Indian languages for navigations and step-by-step vocal feedback.</p>
+        </div>
+        <div class="card">
+          <i class="fa-solid fa-scale-balanced"></i>
+          <h4>Non-Linear Portion Scaler</h4>
+          <p>Applies food-science batch curves to throttle trace leaveners, intense spices, and water evaporation ratios up to 50 servings.</p>
+        </div>
+      </div>
+      
+      <div class="callout">
+        <div class="callout-title"><i class="fa-solid fa-circle-info"></i> Offline Architecture First</div>
+        <p>The platform runs completely client-side. Local data persistency is managed using IndexedDB, meaning users can view, filter, bookmark, and cook recipes even in low-reception basements or remote kitchens.</p>
+      </div>
+    </section>
+
+    <!-- Motivation -->
+    <section id="motivation" class="report-section">
+      <h2>2. Project Context & Motivation</h2>
+      <p>Indian culinary history is intimately tied to regional geography, temples, seasonal agriculture, and scriptural guidelines. Many traditional dishes, especially <em>Maha Prasad</em> (temple offerings) and strictly coded dietary meals (<em>Sattvic</em>, <em>Jain</em>, <em>Vrat</em>/fasting diets), are at risk of vanishing as younger generations adopt standardized fast foods.</p>
+      <p>Additionally, modern cooking websites present serious usability issues in actual kitchen environments:
+        <ul>
+          <li><strong>Physical Contamination:</strong> Wet, flour-dusted, or oil-slicked fingers smear mobile touchscreens, risking damage to expensive devices.</li>
+          <li><strong>Inaccurate scaling:</strong> Standard apps double all ingredients linearly when scaling from 2 to 20 portions, resulting in over-salted, heavily spiced, or liquid-logged failures.</li>
+          <li><strong>Scriptural Ignorance:</strong> General recipes do not automatically account for root-vegetable exclusions, grain replacements during sacred fasts, or mineral-salt conversions.</li>
+        </ul>
+      </p>
+      <p><strong>NaivedyaYatra</strong> targets these exact pain points by integrating advanced browser APIs, non-linear mathematical models, and dietary rule engines to build a secure, cultural, and smart digital kitchen assistant.</p>
+    </section>
+
+    <!-- Product Features -->
+    <section id="features" class="report-section">
+      <h2>3. Core Product Features</h2>
+      
+      <h3>🪔 A. Immersive Traditional Aesthetics</h3>
+      <p>The app features a custom SVG <strong>flickering brass Diya pre-loader</strong> that dynamically pulses and glows brighter as the underlying IndexedDB database initialization and recipe seeds complete. The homepage hosts a multi-layered parallax hero banner with gold calligraphy text and scrolling incense mist overlays at the base. Scroll-triggered showcase grids spotlight cultural pillars (<em>Bhakti</em>, <em>Parampara</em>, and <em>Sanskriti</em>), elevating on mouse hover.</p>
+
+      <h3>🎙️ B. AI Culinary Guru & Vision Portal</h3>
+      <p>An integrated ChatGPT-style workspace provides access to an AI Culinary Guru. It retains a browser-cached <strong>Sacred Chat History</strong> grouped chronologically (e.g. <em>Today</em>, <em>Yesterday</em>, <em>Previous 7 Days</em>) and a settings panel for dietary guardrails.
+        <ul>
+          <li><strong>Sattvic / Jain Mode:</strong> Automatically omits root crops (onions, garlic) and substitutes potatoes with raw green banana (<em>Kacha Kela</em>).</li>
+          <li><strong>Vrat / Upvas Mode:</strong> Replaces table salt with rock salt (<em>Sendha Namak</em>) and swaps out grains/wheat flour for water chestnut (<em>Singhara</em>) or sago (<em>Sabudana</em>) flours.</li>
+        </ul>
+        The interface permits base64-encoded image attachments for visual analysis, text file uploads, and real-time voice dictation transcriptions. Endpoint connectivity parameters are saved locally in the browser with eye toggles for privacy.
+      </p>
+
+      <h3>🍃 C. Aligned 52-Recipe Repository</h3>
+      <p>A library of 52 verified traditional recipes is categorized into regional tracks: <em>Sacred Bhog & Prasad</em>, <em>Western Trails</em>, <em>South Indian Agraharams</em>, <em>Northern Kadhais</em>, and <em>Eastern Sweets & Rituals</em>. Instant filter chips sort recipes by region, cooking method (Clay Pot, griddle, slow cook, griddle), or occasion (Vrat, Fasting, Prasad, Festivals). A phonetic search engine matches common variations, so typing "batata" or "aloo" yields correct potato-based items.</p>
+
+      <h3>🍳 D. Fullscreen Interactive Rasoi Mode</h3>
+      <p>This mode triggers an enlarged parchment overlay optimized for visibility from distance. It houses the <strong>hands-free webcam wave sensors</strong>, continuous multi-lingual voice recognition (Hindi, Marathi, English, etc.), and the <strong>Tibetan Singing Bowl timer alarm</strong> synthesized using raw oscillator nodes on the Web Audio API (emitting frequencies at 220Hz, 440Hz, 560Hz, 680Hz, and 880Hz decaying exponentially over 5 seconds).</p>
+    </section>
+
+    <!-- System Architecture -->
+    <section id="architecture" class="report-section">
+      <h2>4. System Architecture & Data Flows</h2>
+      <p>NaivedyaYatra is built purely with web-native technologies, avoiding bulky server runtimes to ensure rapid loading speeds and full static hosting eligibility.</p>
+      
+      <div class="diagram-container">
+        <h3>System Architecture Block Diagram</h3>
+        <img src="naivedya_yatra_architecture.png" alt="NaivedyaYatra Architecture Diagram" onclick="openZoomModal(this.src)">
+        <p class="diagram-caption">Figure 1: High-level topology diagram of NaivedyaYatra showing client views, SPA router, storage layer, and media APIs. Click to enlarge.</p>
+      </div>
+
+      <h3>A. Client-Side Hash Router</h3>
+      <p>The application implements a custom routing system in <code>src/router/router.js</code>. Hash URL changes (e.g., <code>#/recipes</code> or <code>#/guru</code>) are caught by window listeners, clearing parent document grids and painting the respective page view dynamically. This prevents state loss in the ongoing voice recognition session or chatbot cache.</p>
+
+      <h3>B. Client-Side IndexedDB Storage Topology</h3>
+      <p>To operate reliably offline, the database layer (<code>src/db/db.js</code>) sets up a local IndexedDB object store structure (<code>RasoiParamparaDB</code> - Version 3):</p>
+      <ul>
+        <li><code>recipes</code> (KeyPath: <code>id</code>): Holds the 52 seeded recipes with metadata, ingredient lists, and local photo asset links.</li>
+        <li><code>users</code> (KeyPath: <code>email</code>): Holds credentials, names, and customized dietary parameters.</li>
+        <li><code>user_recipes</code> (KeyPath: <code>id</code>): Manages bookmarks, custom lists (e.g., "Monday Vrat Meals"), and personal notes.</li>
+        <li><code>reviews</code> (KeyPath: <code>id</code>): Holds community ratings, text reviews, and user-uploaded base64 recipe photos.</li>
+      </ul>
+
+      <div class="diagram-container">
+        <h3>Hands-Free Webcam Gesture Tracking Flow</h3>
+        <img src="naivedya_yatra_gesture_flow.png" alt="Gesture Tracking Flowchart" onclick="openZoomModal(this.src)">
+        <p class="diagram-caption">Figure 2: Execution pipeline of the real-time webcam pixel-shift comparison loop. Click to enlarge.</p>
+      </div>
+
+      <h3>C. Media APIs Integration</h3>
+      <p>The system connects to three separate browser APIs:
+        <ul>
+          <li><strong>Web Speech API (SpeechRecognition):</strong> Runs continuously. When voice recognition closes due to browser timeouts, a restart hook re-initializes it. Custom string match vectors capture navigational phrases in 8 regional languages.</li>
+          <li><strong>SpeechSynthesis (TTS):</strong> Voices active recipe instructions aloud. Voices are programmatically filtered to Indian locales (e.g., <code>hi-IN</code>, <code>en-IN</code>) for natural phonetics.</li>
+          <li><strong>Web Audio API:</strong> Triggers when step timers reach zero. Rather than loading an external MP3 file, it dynamically creates oscillator nodes to produce a bell chime with rich harmonics.</li>
+        </ul>
+      </p>
+    </section>
+
+    <!-- Mathematics & Algorithms -->
+    <section id="math-algorithms" class="report-section">
+      <h2>5. Mathematics & Algorithms</h2>
+      <p>A primary differentiator of NaivedyaYatra is its departure from linear scaling in favor of culinary mathematics, along with its pixel-level motion vector algorithm.</p>
+      
+      <h3>A. Non-Linear Serving Multiplier Math</h3>
+      <p>Scaling a recipe linearly (e.g., multiplying salt and cardamom by 10x for 10x servings) ruins taste. Evaporation rates, chemical reactions, and surface area ratios dictate sub-linear adjustments. The application defines distinct exponents based on ingredient category:</p>
+
+      <div class="math-block">
+        <h4>1. Trace Leaveners & Intense Spices (Salt, Camphor, Baking Soda)</h4>
+        <p>Scaled using an exponent of \(0.55\) to prevent chemical toxicity and over-salting:</p>
+        $$\text{Multiplier}_{\text{trace}} = (\text{Base Multiplier})^{0.55}$$
+        <p><em>Example:</em> For \(50\text{ servings}\), the multiplier is \(50^{0.55} \approx 8.6\text{x}\) (not \(50\text{x}\)).</p>
+      </div>
+
+      <div class="math-block">
+        <h4>2. Aromatic Ground Spices & Herbs (Cardamom, Cumin, Ginger, Pepper)</h4>
+        <p>Scaled using an exponent of \(0.72\) to balance volatile oils:</p>
+        $$\text{Multiplier}_{\text{spices}} = (\text{Base Multiplier})^{0.72}$$
+        <p><em>Example:</em> For \(50\text{ servings}\), spices scale by \(50^{0.72} \approx 16.7\text{x}\) (not \(50\text{x}\)).</p>
+      </div>
+
+      <div class="math-block">
+        <h4>3. Evaporating Liquids (Water, Broth, Coconut Milk)</h4>
+        <p>Scaled using an exponent of \(0.85\) as larger vessels exhibit lower relative evaporation ratios:</p>
+        $$\text{Multiplier}_{\text{liquids}} = (\text{Base Multiplier})^{0.85}$$
+        <p><em>Example:</em> For \(50\text{ servings}\), liquids scale by \(50^{0.85} \approx 27.8\text{x}\).</p>
+      </div>
+
+      <div class="math-block">
+        <h4>4. Bulk Caloric Bases (Rice, Flour, Lentils, Sugar, Ghee)</h4>
+        <p>Scaled linearly (\(1.0\)) to preserve structural yields and calorie counts:</p>
+        $$\text{Multiplier}_{\text{base}} = \text{Base Multiplier}$$
+        <p><em>Example:</em> For \(50\text{ servings}\), flour scales by exactly \(50.0\text{x}\).</p>
+      </div>
+
+      <h3>B. Webcam Motion Detection Algorithm</h3>
+      <p>To avoid overhead, the motion tracker uses basic canvas pixel diffs instead of heavy machine learning libraries (like TensorFlow):</p>
+      <ol>
+        <li>Every frame, the webcam feed is downsampled to a hidden \(40 \times 30\) canvas.</li>
+        <li>For each cell \((x,y)\), red, green, and blue values are converted to luminance \(Y\):
+          <div class="math-block">
+            $$Y(x, y) = 0.299 \cdot R(x, y) + 0.587 \cdot G(x, y) + 0.114 \cdot B(x, y)$$
+          </div>
+        </li>
+        <li>We compute the absolute frame-to-frame difference for each cell:
+          <div class="math-block">
+            $$\Delta Y(x, y) = |Y_{\text{current}}(x, y) - Y_{\text{previous}}(x, y)|$$
+          </div>
+        </li>
+        <li>If \(\Delta Y(x, y)\) exceeds \(0.10\) (10% shift), the cell is flagged as active. If a cohesive cluster of active cells shifts horizontally from left to right across sequential frames, a hand-wave is registered, advancing the page instructions. A 2.0-second cooldown is enforced to prevent accidental duplicate triggers.</li>
+      </ol>
+    </section>
+
+    <!-- Practical Utility -->
+    <section id="utility" class="report-section">
+      <h2>6. Practical Utility & Use Cases</h2>
+      <p>NaivedyaYatra serves as more than a digital recipe book; it is a practical tool tailored for diverse culinary scenarios:</p>
+      
+      <div class="feature-grid">
+        <div class="card">
+          <i class="fa-solid fa-house-chimney-user"></i>
+          <h4>Home Cooking Safety</h4>
+          <p>Enables domestic cooks to prepare recipes without touching screen glass, preventing water damage or food stains on devices.</p>
+        </div>
+        <div class="card">
+          <i class="fa-solid fa-place-of-worship"></i>
+          <h4>Temple & Community Kitchens</h4>
+          <p>Equips communal chefs with the ability to instantly scale offerings (Maha Prasad) up to 50 servings with precise, non-linear seasoning modifications.</p>
+        </div>
+        <div class="card">
+          <i class="fa-solid fa-mortar-pestle"></i>
+          <h4>Ayurvedic & Fasting Compliance</h4>
+          <p>Ensures that strict seasonal dietary restrictions (Jain, Sattvic, or Vrat rules) are applied automatically to recipes without manual cross-referencing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation & Setup Guide -->
+    <section id="setup" class="report-section">
+      <h2>7. Installation & Setup Guide</h2>
+      <p>Follow these steps to configure and run the NaivedyaYatra codebase locally on your machine:</p>
+      
+      <h3>1. Clone the Repository</h3>
+      <pre><code>git clone https://github.com/AlokXCreate/naivedya-yatra.git
+cd naivedya-yatra</code></pre>
+      
+      <h3>2. Install Development Dependencies</h3>
+      <p>Ensure Node.js is installed on your machine, then run:</p>
+      <pre><code>npm install</code></pre>
+      
+      <h3>3. Start the Local Server</h3>
+      <pre><code>npm run dev</code></pre>
+      <p>The application will start, usually serving on <code>http://localhost:5173/</code>. Open this URL in a Google Chrome or Microsoft Edge browser for full webcam and Speech API compatibility.</p>
+
+      <h3>4. Build for Production</h3>
+      <p>To compile optimized assets for web deployment (e.g. Netlify, Vercel):</p>
+      <pre><code>npm run build</code></pre>
+      <p>The compiled, production-ready static assets will be output to the <code>dist/</code> folder.</p>
+    </section>
+
+    <!-- Conclusion & Future Outlook -->
+    <section id="conclusion" class="report-section">
+      <h2>8. Conclusion & Future Outlook</h2>
+      <p><strong>NaivedyaYatra</strong> represents a successful integration of ancient cultural foodways with modern browser technology. By designing for kitchen environments (incorporating hands-free gesture tracking and voice synthesis) and integrating culinary scaling math, it bridges the gap between digital convenience and authentic recipe preservation.</p>
+      <p>Future releases will expand upon this framework by adding:
+        <ul>
+          <li><strong>Offline Voice Shopping List:</strong> Automatically compile grocery needs using voice commands, exporting them directly to SMS.</li>
+          <li><strong>Seasonal Ayurvedic Planners (Ritu-Charya):</strong> Dynamically adjust filtering recommendations based on active seasonal transitions.</li>
+          <li><strong>Visual Ingredient Recognizer:</strong> Connect device camera snapshots directly to the AI Guru to identify vegetables and suggest corresponding temple recipes.</li>
+        </ul>
+      </p>
+      
+      <div class="callout" style="border-left-color: var(--primary-color);">
+        <p style="text-align: center; font-family: var(--font-serif); font-size: 1.1rem; color: var(--accent-color);">
+          May the light of the sacred Diya guide your culinary path. Namaste. 🪔
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Zoom Modal -->
+  <div id="image-modal" class="zoom-modal" onclick="closeZoomModal()">
+    <span class="zoom-close" onclick="closeZoomModal()">&times;</span>
+    <img class="zoom-content" id="modal-img">
+  </div>
+
+  <script>
+    // Light/Dark Theme Toggle
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.getElementById('theme-icon');
+      const text = document.getElementById('theme-text');
+      
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        icon.className = 'fa-solid fa-moon';
+        text.innerText = 'Dark Mode';
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        icon.className = 'fa-solid fa-sun';
+        text.innerText = 'Light Mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Set initial theme on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-icon').className = 'fa-solid fa-sun';
+        document.getElementById('theme-text').innerText = 'Light Mode';
+      }
+    });
+
+    // Set active link in sidebar navigation
+    function setActiveLink(linkElement) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      linkElement.classList.add('active');
+    }
+
+    // Filter report content on search
+    function filterContent() {
+      const query = document.getElementById('report-search').value.toLowerCase();
+      const sections = document.querySelectorAll('.report-section');
+      
+      sections.forEach(section => {
+        const text = section.innerText.toLowerCase();
+        if (text.includes(query)) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
+
+    // Image Zoom functionality
+    function openZoomModal(imgSrc) {
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      modal.style.display = 'block';
+      modalImg.src = imgSrc;
+    }
+
+    function closeZoomModal() {
+      document.getElementById('image-modal').style.display = 'none';
+    }
+
+    // Close modal on Escape key press
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeZoomModal();
+      }
+    });
+
+    // Update active sidebar link on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.report-section');
+      const scrollPos = window.scrollY + 200;
+      
+      sections.forEach(section => {
+        if (scrollPos >= section.offsetTop && scrollPos < (section.offsetTop + section.offsetHeight)) {
+          const id = section.getAttribute('id');
+          const activeNav = document.querySelector(`.nav-links a[href="#${id}"]`);
+          if (activeNav) {
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            activeNav.classList.add('active');
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

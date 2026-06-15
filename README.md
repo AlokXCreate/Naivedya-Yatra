@@ -8,6 +8,7 @@
 <p align="center">
   <a href="https://github.com/AlokXCreate"><img src="https://img.shields.io/badge/GitHub-AlokXCreate-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile" /></a>
     <a href="https://6a302e95746430cba65e5f7a--capable-cucurucho-2732cc.netlify.app/"><img src="https://img.shields.io/badge/Live_Website-Deploy_on_Netlify-success?style=for-the-badge&logo=netlify&logoColor=white&color=00AD9F" alt="Live Website" /></a>
+    <a href="https://animated-zabaione-9e4cab.netlify.app/"><img src="https://img.shields.io/badge/Project Report-Naivedya%20Yatra-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a>
   <a href="https://www.linkedin.com/in/alokkadam-ai/"><img src="https://img.shields.io/badge/LinkedIn-Alok%20Kadam-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile" /></a>
 </p>
 
